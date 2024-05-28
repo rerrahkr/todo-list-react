@@ -16,6 +16,7 @@ import {
 const TodoListItem = memo(
   ({ todo: { id, text } }: { todo: Todo }): React.JSX.Element => {
     const [isEditing, setEditing] = useState<boolean>(false);
+    const toggleEditing = () => setEditing((prev) => !prev);
 
     const editInputRef = useRef<HTMLInputElement>(null);
     useEffect(() => {
@@ -32,18 +33,18 @@ const TodoListItem = memo(
     };
 
     const onDoubleClicked: MouseEventHandler<HTMLLabelElement> = () => {
-      setEditing((prev) => !prev);
+      toggleEditing();
     };
 
     const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (ev) => {
       switch (ev.key) {
         case "Enter":
           dispatch(modifyTodo({ id, text: ev.currentTarget.value }));
-          setEditing((prev) => !prev);
+          toggleEditing();
           break;
 
         case "Escape":
-          setEditing((prev) => !prev);
+          toggleEditing();
           break;
 
         default:
@@ -53,7 +54,7 @@ const TodoListItem = memo(
 
     const onBlur: FocusEventHandler<HTMLInputElement> = (ev) => {
       dispatch(modifyTodo({ id, text: ev.currentTarget.value }));
-      setEditing((prev) => !prev);
+      toggleEditing();
     };
 
     return (

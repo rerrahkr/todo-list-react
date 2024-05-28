@@ -22,6 +22,7 @@ function TodoListItem({ todoAtom, removeTodo }: Prop): React.JSX.Element {
   const [{ id, text }, setTodo] = useAtom(todoAtom);
 
   const [isEditing, setEditing] = useAtom(isEditingTodoTextAtom);
+  const toggleEditing = () => setEditing((prev) => !prev);
 
   const editInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -36,18 +37,18 @@ function TodoListItem({ todoAtom, removeTodo }: Prop): React.JSX.Element {
   };
 
   const onDoubleClicked: MouseEventHandler<HTMLLabelElement> = () => {
-    setEditing((prev) => !prev);
+    toggleEditing();
   };
 
   const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (ev) => {
     switch (ev.key) {
       case "Enter":
         setTodo((prev) => ({ ...prev, text: ev.currentTarget.value }));
-        setEditing((prev) => !prev);
+        toggleEditing();
         break;
 
       case "Escape":
-        setEditing((prev) => !prev);
+        toggleEditing();
         break;
 
       default:
@@ -57,7 +58,7 @@ function TodoListItem({ todoAtom, removeTodo }: Prop): React.JSX.Element {
 
   const onBlur: FocusEventHandler<HTMLInputElement> = (ev) => {
     setTodo((prev) => ({ ...prev, text: ev.currentTarget.value }));
-    setEditing((prev) => !prev);
+    toggleEditing();
   };
 
   return (

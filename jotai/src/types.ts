@@ -1,5 +1,7 @@
+import { nanoid } from "nanoid";
+
 type Id = string & { Id: never };
-const newId = () => (Math.random() * 1000).toString().padStart(4, "0") as Id;
+const newId = () => nanoid() as Id;
 
 type Todo = {
   id: Id;
